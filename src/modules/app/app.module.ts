@@ -13,6 +13,7 @@ import { AuthModule } from '../auth'
 			driver: ApolloDriver,
 			debug: true,
 			playground: true,
+			autoSchemaFile: true,
 		}),
 		UsersModule,
 		AuthModule,
