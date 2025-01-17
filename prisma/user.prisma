@@ -1,0 +1,11 @@
+model User {
+  id    Int     @default(autoincrement()) @id
+  email String  @unique
+  password String 
+  firstName  String? @map("first_name")
+  lastName  String? @map("last_name")
+  description  String?
+  avatarPath  String? @map("avatar_path")
+
+  @@map("users")
+}

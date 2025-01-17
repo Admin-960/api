@@ -7,6 +7,7 @@ export class UserResolver {
 
 	@Query(() => String)
 	async users() {
+		// 2:16
 		return this.userService.getAll()
 	}
 }
