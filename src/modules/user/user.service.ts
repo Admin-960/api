@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
 
 @Injectable()
-export class UsersService {
+export class UserService {
 	constructor() {}
 	async getAll() {
-		return [{ id: 1, name: 'user1' }]
+		return `[{ id: 1, name: 'user1' }]`
 	}
 }
