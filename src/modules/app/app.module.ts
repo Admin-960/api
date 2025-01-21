@@ -15,10 +15,10 @@ import { AuthModule } from '../auth'
 			driver: ApolloDriver,
 			debug: true,
 			playground: true,
-			autoSchemaFile: 'scheme.gql',
-		}),
+			autoSchemaFile: 'scheme.gql'
+		})
 	],
 	controllers: [AppController],
-	providers: [AppService],
+	providers: [AppService]
 })
 export class AppModule {}
