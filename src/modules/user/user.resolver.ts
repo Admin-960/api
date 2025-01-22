@@ -7,7 +7,13 @@ export class UserResolver {
 
 	@Query(() => String)
 	async users() {
-		// 2:16
+		// 2:40
 		return this.userService.getAll()
+	}
+
+	@Query(() => [User])
+	async users(): Promise<User[]> {
+		const users = await userService.findMany()
+		return users // Prisma вернет массив объектов User,  GraphQL преобразует их с помощью @ObjectType
 	}
 }
