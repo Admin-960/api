@@ -1,19 +1,23 @@
 import { Query, Resolver } from '@nestjs/graphql'
 import { UserService } from './user.service'
+import { Role, UserModel } from './models'
 
 @Resolver()
 export class UserResolver {
 	constructor(private readonly userService: UserService) {}
+	// 2:40
+	// 1:31
 
-	@Query(() => String)
-	async users() {
-		// 2:40
-		return this.userService.getAll()
+	@Query(() => UserModel, { name: 'profile' })
+	// @Auth()
+	async getProfile(@CurrentUser('id') id: string) {
+		return this.userService.getBy(id)
 	}
 
-	@Query(() => [User])
+	@Query(() => [UserModel], { name: 'users' })
+	// @Auth(Role.ADMIN)
 	async users(): Promise<User[]> {
-		const users = await userService.findMany()
-		return users // Prisma вернет массив объектов User,  GraphQL преобразует их с помощью @ObjectType
+		const users = await this.userService.findMany()
+		return users // Prisma вернет массив объектов User, GraphQL преобразует их с помощью @ObjectType
 	}
 }

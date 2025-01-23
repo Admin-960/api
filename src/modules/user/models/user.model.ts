@@ -1,11 +1,9 @@
 import { ObjectType, Field, Int, ID, Boolean } from '@nestjs/graphql'
+import { BaseFields } from '@/base'
 import { Role } from './role.enum'
 
 @ObjectType()
-export class User {
-	@Field(type => ID)
-	id: number
-
+export class UserModel extends BaseFields {
 	@Field()
 	email: string
 
@@ -38,10 +36,4 @@ export class User {
 
 	@Field(type => Boolean)
 	isRealTime: boolean
-
-	@Field()
-	createdAt: Date
-
-	@Field()
-	updatedAt: Date
 }
