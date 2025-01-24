@@ -85,7 +85,7 @@ describe(`PostRepository`, () => {
 		it(`should return array of posts`, async () => {
 			prismaService.post.findMany.mockResolvedValue(posts)
 
-			await expect(postRepository.getTweets({})).resolves.toBe(posts)
+			await expect(postRepository.getPosts({})).resolves.toBe(posts)
 		})
 	})
 })

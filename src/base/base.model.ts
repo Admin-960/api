@@ -1,13 +1,13 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql'
+import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql'
 
 @ObjectType()
 export class BaseFields {
-	@Field(type => ID)
+	@Field(() => ID)
 	id: number
 
-	@Field()
+	@Field(() => GraphQLISODateTime)
 	createdAt: Date
 
-	@Field()
+	@Field(() => GraphQLISODateTime)
 	updatedAt: Date
 }

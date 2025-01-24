@@ -30,7 +30,7 @@ export class PostRepository {
 		data: Prisma.PostUpdateInput
 	}): Promise<Post> {
 		const { where, data } = params
-		if (data.content && data.content > 80) {
+		if (data.content && String(data.content).length > 80) {
 			throw new Error(`Post too long`)
 		}
 		return this.prisma.post.update({ where, data })

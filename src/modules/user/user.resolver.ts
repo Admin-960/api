@@ -1,23 +1,28 @@
-import { Query, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { UserService } from './user.service'
-import { Role, UserModel } from './models'
+import { UserModel } from './models'
+import { CreateUserDto } from './dto'
+import { HttpCode, UsePipes, ValidationPipe } from '@nestjs/common'
 
 @Resolver()
 export class UserResolver {
 	constructor(private readonly userService: UserService) {}
 	// 2:40
-	// 1:31
 
-	@Query(() => UserModel, { name: 'profile' })
-	// @Auth()
-	async getProfile(@CurrentUser('id') id: string) {
-		return this.userService.getBy(id)
+	@Query(() => UserModel)
+	async getUser(@Args('id', { type: () => String }) id: string) {
+		return this.userService.getUser(id)
 	}
 
-	@Query(() => [UserModel], { name: 'users' })
-	// @Auth(Role.ADMIN)
-	async users(): Promise<User[]> {
-		const users = await this.userService.findMany()
-		return users // Prisma вернет массив объектов User, GraphQL преобразует их с помощью @ObjectType
+	@Query(() => [UserModel])
+	async getUsers() {
+		return this.userService.getUsers()
+	}
+
+	@Mutation(() => UserModel)
+	@UsePipes(new ValidationPipe())
+	@HttpCode(200)
+	async createUser(@Args('dto') dto: CreateUserDto) {
+		return this.userService.createUser(dto)
 	}
 }

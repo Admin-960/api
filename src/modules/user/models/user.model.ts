@@ -1,39 +1,53 @@
-import { ObjectType, Field, Int, ID, Boolean } from '@nestjs/graphql'
+import { ObjectType, Field, GraphQLISODateTime } from '@nestjs/graphql'
 import { BaseFields } from '@/base'
 import { Role } from './role.enum'
+import { User as UserDB } from '@prisma/client'
+import { PostModel } from '@/modules/post/models'
 
 @ObjectType()
-export class UserModel extends BaseFields {
-	@Field()
-	email: string
+export class UserModel {
+	@Field(() => String)
+	id: UserDB[`id`]
 
-	@Field()
-	password: string
+	@Field(() => GraphQLISODateTime)
+	createdAt: UserDB[`createdAt`]
 
-	@Field({ nullable: true })
-	username: string | null
+	@Field(() => GraphQLISODateTime)
+	updatedAt: UserDB[`updatedAt`]
 
-	@Field({ nullable: true })
-	description: string | null
+	@Field(() => String)
+	email: UserDB[`email`]
 
-	@Field({ nullable: true })
-	avatarPath: string | null
+	@Field(() => String)
+	password: UserDB[`password`]
 
-	@Field(type => Role)
-	role: Role
+	@Field(() => String, { nullable: true })
+	username?: UserDB[`username`]
 
-	@Field({ nullable: true })
-	country: string | null
+	@Field(() => String, { nullable: true })
+	description?: UserDB[`description`]
 
-	@Field({ nullable: true })
-	rememberToken: string | null
+	@Field(() => String, { nullable: true })
+	avatarPath?: UserDB[`avatarPath`]
 
-	@Field(type => Boolean)
-	isVerified: boolean
+	@Field(() => String)
+	role: UserDB[`role`]
 
-	@Field({ nullable: true })
-	socialLink: string | null
+	@Field(() => String, { nullable: true })
+	country?: UserDB[`country`]
 
-	@Field(type => Boolean)
-	isRealTime: boolean
+	@Field(() => String, { nullable: true })
+	rememberToken?: UserDB[`rememberToken`]
+
+	@Field(() => Boolean)
+	isVerified: UserDB[`isVerified`]
+
+	@Field(() => String, { nullable: true })
+	socialLink?: UserDB[`socialLink`]
+
+	@Field(() => Boolean)
+	isRealTime: UserDB[`isRealTime`]
+
+	// @Field(() => [PostModel])
+	// posts: PostModel[]
 }

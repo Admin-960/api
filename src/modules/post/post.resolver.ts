@@ -1,20 +1,20 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { Post } from 'src/modules/post/models'
-import { PostService } from 'src/modules/post/post.service'
+import { PostModel } from '@/modules/post/models'
+import { PostService } from '@/modules/post/post.service'
 
 @Resolver()
 export class PostResolver {
 	constructor(private readonly postService: PostService) {}
 
-	@Query(() => [Post])
-	async getTweets() {
+	@Query(() => [PostModel])
+	async getPosts() {
 		return this.postService.getPosts()
 	}
 
-	@Mutation(() => Post)
+	@Mutation(() => PostModel)
 	async createPost(
 		@Args({ name: `content`, type: () => String }) content: string,
-		@Args({ name: `userId`, type: () => Int }) userId: number
+		@Args({ name: `userId`, type: () => String }) userId: string
 	) {
 		return this.postService.createPost({ content, userId })
 	}

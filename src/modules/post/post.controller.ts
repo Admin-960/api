@@ -11,7 +11,7 @@ export class PostController {
 		const { content, userId } = dto
 		return this.postService.createPost({
 			content,
-			userId: Number(userId)
+			userId: userId
 		})
 	}
 
