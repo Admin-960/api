@@ -5,12 +5,14 @@ model User {
   username  String? @unique
   description  String?
   avatarPath  String? @map("avatar_path")
-  role    Role     @default(STUDENT)
+  role    Role     @default(USER)
   country  String?
   rememberToken  String? @map("remember_token")
   isVerified  Boolean @default(false) @map("is_verified")
   socialLink  String? @map("social_link")
   isRealTime  Boolean @default(true) @map("is_real_time")
+
+  posts      Post[]
 
   @@map("users")
 }
@@ -18,5 +20,5 @@ model User {
 enum Role {
   ADMIN
   EDITOR
-  STUDENT
+  USER
 }
