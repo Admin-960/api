@@ -1,0 +1,31 @@
+/* Get user */
+query {
+  getUser(id: "cm6b8z79p0000uvcg1uz9px4n") {
+    id
+    email
+    isVerified
+    username
+    createdAt
+    updatedAt
+  }
+}
+
+/* Create user */
+mutation {
+  createUser(dto: {
+    email: "test@test.com",
+    password: "123456"
+  }) {
+    id
+    email
+  }
+}
+
+/* Create post */
+mutation {
+  createPost(content: "First post.", userId: "cm6b8z79p0000uvcg1uz9px4n") {
+    content
+    createdAt
+    updatedAt
+  }
+}
