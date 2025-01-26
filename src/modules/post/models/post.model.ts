@@ -3,7 +3,7 @@ import { Post as PostDB } from '@prisma/client'
 
 @ObjectType()
 export class PostModel {
-	@Field(() => Int)
+	@Field(() => String)
 	id: PostDB[`id`]
 
 	@Field(() => GraphQLISODateTime)
@@ -15,6 +15,6 @@ export class PostModel {
 	@Field(() => String)
 	content: PostDB[`content`]
 
-	@Field(() => Int)
+	@Field(() => String)
 	userId: PostDB[`userId`]
 }

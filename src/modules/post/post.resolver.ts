@@ -7,7 +7,7 @@ export class PostResolver {
 	constructor(private readonly postService: PostService) {}
 
 	@Query(() => [PostModel])
-	async getPosts() {
+	async getPosts(): Promise<PostModel[]> {
 		return this.postService.getPosts()
 	}
 

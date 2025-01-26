@@ -10,6 +10,42 @@ query {
   }
 }
 
+/* Get all users */
+query {
+  getAllUsers {
+    id
+    createdAt
+    email
+    posts {
+      id
+      content
+    }
+  }
+}
+
+
+/* Get all posts */
+query {
+  getPosts {
+    id
+    content
+  }
+}
+
+/* Get user with posts */
+query {
+  getUser(id: "cm6b8z79p0000uvcg1uz9px4n") {
+    id
+    email
+    isVerified
+    username
+    posts {
+      id
+      content
+    }
+  }
+}
+
 /* Create user */
 mutation {
   createUser(dto: {

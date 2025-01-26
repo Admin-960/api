@@ -11,7 +11,7 @@ export class UserService {
 		return user
 	}
 
-	async getUsers() {
+	async getAllUsers() {
 		const users = await this.repository.findMany()
 		return users
 	}

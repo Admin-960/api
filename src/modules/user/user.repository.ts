@@ -18,9 +18,12 @@ export class UserRepository {
 	}
 
 	async findMany(): Promise<UserModel[]> {
-		const users = this.prisma.user.findMany({
+		const users = await this.prisma.user.findMany({
 			orderBy: {
 				createdAt: 'desc'
+			},
+			include: {
+				posts: true
 			}
 		})
 		return users
@@ -28,7 +31,10 @@ export class UserRepository {
 
 	async create(dto: CreateUserDto): Promise<UserModel> {
 		const createdUser = this.prisma.user.create({
-			data: { email: dto.email, password: dto.password }
+			data: { email: dto.email, password: dto.password },
+			include: {
+				posts: true
+			}
 		})
 		return createdUser
 	}

@@ -22,7 +22,16 @@ export class PostRepository {
 		orderBy?: Prisma.PostOrderByWithRelationInput
 	}): Promise<Post[]> {
 		const { skip, take, cursor, where, orderBy } = params
-		return this.prisma.post.findMany({ skip, take, cursor, where, orderBy })
+		return this.prisma.post.findMany({
+			skip,
+			take,
+			cursor,
+			where,
+			orderBy,
+			include: {
+				user: true
+			}
+		})
 	}
 
 	async updatePost(params: {

@@ -1,6 +1,4 @@
 import { ObjectType, Field, GraphQLISODateTime } from '@nestjs/graphql'
-import { BaseFields } from '@/base'
-import { Role } from './role.enum'
 import { User as UserDB } from '@prisma/client'
 import { PostModel } from '@/modules/post/models'
 
@@ -48,6 +46,6 @@ export class UserModel {
 	@Field(() => Boolean)
 	isRealTime: UserDB[`isRealTime`]
 
-	// @Field(() => [PostModel])
-	// posts: PostModel[]
+	@Field(() => [PostModel])
+	posts: PostModel[]
 }

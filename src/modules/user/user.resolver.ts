@@ -15,8 +15,8 @@ export class UserResolver {
 	}
 
 	@Query(() => [UserModel])
-	async getUsers() {
-		return this.userService.getUsers()
+	async getAllUsers() {
+		return this.userService.getAllUsers()
 	}
 
 	@Mutation(() => UserModel)
