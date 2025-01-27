@@ -38,4 +38,9 @@ export class UserRepository {
 		})
 		return createdUser
 	}
+
+	// async create(dto: { data: Prisma.UserCreateInput }): Promise<UserModel> {
+	// 	const createdUser = this.prisma.user.create({ data })
+	// 	return createdUser
+	// }
 }

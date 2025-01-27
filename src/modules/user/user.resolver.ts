@@ -21,7 +21,6 @@ export class UserResolver {
 
 	@Mutation(() => UserModel)
 	@UsePipes(new ValidationPipe())
-	@HttpCode(200)
 	async createUser(@Args('dto') dto: CreateUserDto) {
 		return this.userService.createUser(dto)
 	}

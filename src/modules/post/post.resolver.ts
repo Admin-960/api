@@ -1,6 +1,7 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { PostModel } from '@/modules/post/models'
 import { PostService } from '@/modules/post/post.service'
+import { CreatePostDto, UpdatePostDto } from './dto'
 
 @Resolver()
 export class PostResolver {
@@ -12,10 +13,20 @@ export class PostResolver {
 	}
 
 	@Mutation(() => PostModel)
-	async createPost(
-		@Args({ name: `content`, type: () => String }) content: string,
-		@Args({ name: `userId`, type: () => String }) userId: string
-	) {
-		return this.postService.createPost({ content, userId })
+	@UsePipes(new ValidationPipe())
+	async createPost(@Args('dto') dto: CreatePostDto) {
+		return this.postService.createPost(dto)
+	}
+
+	@Mutation(() => PostModel)
+	@UsePipes(new ValidationPipe())
+	async updatePost(@Args('dto') dto: UpdatePostDto) {
+		return this.postService.createPost(dto)
+	}
+
+	@Mutation(() => PostModel)
+	@UsePipes(new ValidationPipe())
+	async deletePost(@Args('id', { type: () => String }) id: string): Promise<boolean> {
+		return this.postService.deletePost(id)
 	}
 }
