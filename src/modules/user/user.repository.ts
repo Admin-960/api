@@ -1,4 +1,4 @@
-import { CreateUserDto } from './dto'
+import { CreateUserDto, UpdateUserDto } from './dto'
 import { Injectable } from '@nestjs/common'
 import { UserModel } from './models'
 import { PrismaService } from '@/database/prisma.service'
@@ -10,6 +10,16 @@ export class UserRepository {
 	async getById(id: string): Promise<UserModel> {
 		const user = this.prisma.user.findUnique({
 			where: { id },
+			include: {
+				posts: true
+			}
+		})
+		return user
+	}
+
+	async getByEmail(email: string): Promise<UserModel> {
+		const user = await this.prisma.user.findUnique({
+			where: { email },
 			include: {
 				posts: true
 			}
@@ -39,8 +49,12 @@ export class UserRepository {
 		return createdUser
 	}
 
-	// async create(dto: { data: Prisma.UserCreateInput }): Promise<UserModel> {
-	// 	const createdUser = this.prisma.user.create({ data })
-	// 	return createdUser
-	// }
+	async update(id: string, data: Partial<UpdateUserDto>) {
+		return await this.prisma.user.update({
+			where: { id },
+			data: {
+				...data
+			}
+		})
+	}
 }

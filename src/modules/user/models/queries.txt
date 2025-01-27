@@ -57,11 +57,28 @@ mutation {
   }
 }
 
+/* Update user */
+mutation {
+ updateUser(id: "cm6ffltpc0000uv9klzwhqtxt", dto: {email: "admin@test.com", username: "admin"}) {
+    id
+    email
+    username,
+    password
+  }
+}
+
 /* Create post */
 mutation {
   createPost(content: "First post.", userId: "cm6b8z79p0000uvcg1uz9px4n") {
     content
     createdAt
     updatedAt
+  }
+}
+
+/* Delete post */
+mutation {
+  deletePost(id: "cm6dycc7j0003uvrsktdg0q46") {
+    message
   }
 }

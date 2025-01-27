@@ -1,25 +1,21 @@
 import { Injectable } from '@nestjs/common'
 import { Prisma, Post } from '@prisma/client'
 import { PrismaService } from '../../database/prisma.service'
+import { PostModel } from './models'
 
 @Injectable()
 export class PostRepository {
 	constructor(private prisma: PrismaService) {}
 
-	async getPosts(params: {
-		skip?: number
-		take?: number
-		cursor?: Prisma.PostWhereUniqueInput
-		where?: Prisma.PostWhereInput
-		orderBy?: Prisma.PostOrderByWithRelationInput
-	}): Promise<Post[]> {
-		const { skip, take, cursor, where, orderBy } = dto
+	async getPosts(): Promise<Post[]> {
 		return await this.prisma.post.findMany({
-			skip,
-			take,
-			cursor,
-			where,
-			orderBy
+			orderBy: { createdAt: 'desc' }
+		})
+	}
+
+	async findUnique(id: string): Promise<PostModel> {
+		return this.prisma.post.findUnique({
+			where: { id }
 		})
 	}
 
@@ -42,7 +38,8 @@ export class PostRepository {
 		return await this.prisma.post.update({ where, data })
 	}
 
-	async deletePost(params: { where: Prisma.PostWhereUniqueInput }): Promise<void> {
-		return await this.prisma.post.delete({ where })
+	async delete(params: { where: Prisma.PostWhereUniqueInput }) {
+		const { where } = params
+		await this.prisma.post.delete({ where })
 	}
 }

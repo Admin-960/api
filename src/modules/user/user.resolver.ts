@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { UserService } from './user.service'
 import { UserModel } from './models'
-import { CreateUserDto } from './dto'
+import { CreateUserDto, UpdateUserDto } from './dto'
 import { HttpCode, UsePipes, ValidationPipe } from '@nestjs/common'
 
 @Resolver()
@@ -10,8 +10,8 @@ export class UserResolver {
 	// 2:40
 
 	@Query(() => UserModel)
-	async getUser(@Args('id', { type: () => String }) id: string) {
-		return this.userService.getUser(id)
+	async getUserId(@Args('id') id: string) {
+		return this.userService.getUserId(id)
 	}
 
 	@Query(() => [UserModel])
@@ -23,5 +23,11 @@ export class UserResolver {
 	@UsePipes(new ValidationPipe())
 	async createUser(@Args('dto') dto: CreateUserDto) {
 		return this.userService.createUser(dto)
+	}
+
+	@Mutation(() => UserModel)
+	@UsePipes(new ValidationPipe())
+	async updateUser(@Args('id') id: string, @Args('dto') dto: UpdateUserDto) {
+		return this.userService.updateProfile(id, dto)
 	}
 }

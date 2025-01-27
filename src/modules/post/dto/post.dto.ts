@@ -1,20 +1,17 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { IsString, IsOptional } from 'class-validator'
+import { IsOptional, IsString } from 'class-validator'
 
 @InputType()
 export class CreatePostDto {
 	@Field()
-	@IsOptional()
-	@IsString()
-	id: string
-
-	@Field()
 	@IsString()
 	content: string
-
-	@Field()
-	@IsString()
-	userId: string
 }
 
-export type UpdatePostDto = Partial<CreatePostDto>
+@InputType()
+export class UpdatePostDto {
+	@Field({ nullable: true })
+	@IsString()
+	@IsOptional()
+	content?: string
+}

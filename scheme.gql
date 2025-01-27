@@ -33,18 +33,41 @@ type UserModel {
   posts: [PostModel!]!
 }
 
+type DeletePostResponse {
+  message: String!
+}
+
 type Query {
-  getUser(id: String!): UserModel!
+  getUserId(id: String!): UserModel!
   getAllUsers: [UserModel!]!
   getPosts: [PostModel!]!
+  getPostById(id: String!): PostModel
 }
 
 type Mutation {
   createUser(dto: CreateUserDto!): UserModel!
-  createPost(content: String!, userId: String!): PostModel!
+  updateUser(id: String!, dto: UpdateUserDto!): UserModel!
+  createPost(userId: String!, dto: CreatePostDto!): PostModel!
+  updatePost(id: String!, userId: String!, dto: UpdatePostDto!): PostModel!
+  deletePost(id: String!): DeletePostResponse!
 }
 
 input CreateUserDto {
   email: String!
   password: String!
+  username: String
+}
+
+input UpdateUserDto {
+  email: String
+  password: String
+  username: String
+}
+
+input CreatePostDto {
+  content: String!
+}
+
+input UpdatePostDto {
+  content: String
 }
