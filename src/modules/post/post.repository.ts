@@ -38,8 +38,11 @@ export class PostRepository {
 		return await this.prisma.post.update({ where, data })
 	}
 
-	async delete(params: { where: Prisma.PostWhereUniqueInput }) {
-		const { where } = params
-		await this.prisma.post.delete({ where })
+	async delete(id: string) {
+		await this.prisma.post.delete({
+			where: {
+				id
+			}
+		})
 	}
 }

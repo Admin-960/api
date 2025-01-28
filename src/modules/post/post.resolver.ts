@@ -3,7 +3,7 @@ import { PostModel } from '@/modules/post/models'
 import { PostService } from '@/modules/post/post.service'
 import { CreatePostDto, UpdatePostDto } from './dto'
 import { UsePipes, ValidationPipe } from '@nestjs/common'
-import { DeletePostResponse } from './responses'
+import { MessageResponse } from '@/responses'
 
 @Resolver()
 export class PostResolver {
@@ -35,8 +35,8 @@ export class PostResolver {
 		return this.postService.updatePost(id, userId, dto)
 	}
 
-	@Mutation(() => DeletePostResponse)
-	async deletePost(@Args('id') id: string): Promise<DeletePostResponse> {
+	@Mutation(() => MessageResponse)
+	async deletePost(@Args('id') id: string): Promise<MessageResponse> {
 		return this.postService.deletePost(id)
 	}
 }

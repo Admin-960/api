@@ -50,4 +50,14 @@ export class UserService {
 
 		return this.repository.update(id, updateData)
 	}
+
+	async deleteUser(id: UserModel[`id`]) {
+		const docExist = await this.getUserId(id)
+		if (!docExist) {
+			throw new NotFoundException(`User with id ${id} not found`)
+		}
+
+		await this.repository.delete(id)
+		return { message: 'User deleted' }
+	}
 }

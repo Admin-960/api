@@ -3,6 +3,7 @@ import { UserService } from './user.service'
 import { UserModel } from './models'
 import { CreateUserDto, UpdateUserDto } from './dto'
 import { HttpCode, UsePipes, ValidationPipe } from '@nestjs/common'
+import { MessageResponse } from '@/responses'
 
 @Resolver()
 export class UserResolver {
@@ -12,6 +13,11 @@ export class UserResolver {
 	@Query(() => UserModel)
 	async getUserId(@Args('id') id: string) {
 		return this.userService.getUserId(id)
+	}
+
+	@Query(() => UserModel)
+	async getProfile(@Args('id') id: string) {
+		return this.userService.getProfile(id)
 	}
 
 	@Query(() => [UserModel])
@@ -29,5 +35,10 @@ export class UserResolver {
 	@UsePipes(new ValidationPipe())
 	async updateUser(@Args('id') id: string, @Args('dto') dto: UpdateUserDto) {
 		return this.userService.updateProfile(id, dto)
+	}
+
+	@Mutation(() => MessageResponse)
+	async deleteUser(@Args('id') id: string): Promise<MessageResponse> {
+		return this.userService.deleteUser(id)
 	}
 }

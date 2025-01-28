@@ -59,11 +59,7 @@ export class PostService {
 			throw new NotFoundException(`Post with id ${id} not found`)
 		}
 
-		await this.repository.delete({
-			where: {
-				id
-			}
-		})
+		await this.repository.delete(id)
 		return { message: 'Post deleted' }
 	}
 }
