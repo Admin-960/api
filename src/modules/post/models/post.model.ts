@@ -1,5 +1,5 @@
 import { BaseFields } from '@/base'
-import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql'
+import { Field, ObjectType } from '@nestjs/graphql'
 import { Post as PostDB } from '@prisma/client'
 
 @ObjectType()

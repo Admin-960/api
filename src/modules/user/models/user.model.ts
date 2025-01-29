@@ -1,7 +1,7 @@
-import { ObjectType, Field, GraphQLISODateTime } from '@nestjs/graphql'
+import { ObjectType, Field } from '@nestjs/graphql'
 import { User as UserDB } from '@prisma/client'
-import { PostModel } from '@/modules/post/models'
 import { BaseFields } from '@/base'
+import { PostModel } from '@/modules/post/models'
 
 @ObjectType()
 export class UserModel extends BaseFields {

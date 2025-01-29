@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 type PostModel {
-  id: String!
+  id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
   content: String!
@@ -16,7 +16,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type UserModel {
-  id: String!
+  id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
   email: String!
@@ -33,23 +33,25 @@ type UserModel {
   posts: [PostModel!]!
 }
 
-type DeletePostResponse {
+type MessageResponse {
   message: String!
 }
 
 type Query {
-  getUserId(id: String!): UserModel!
-  getAllUsers: [UserModel!]!
-  getPosts: [PostModel!]!
-  getPostById(id: String!): PostModel
+  user(id: String!): UserModel
+  profile(id: String!): UserModel
+  users: [UserModel!]!
+  posts: [PostModel!]!
+  post(id: String!): PostModel
 }
 
 type Mutation {
   createUser(dto: CreateUserDto!): UserModel!
   updateUser(id: String!, dto: UpdateUserDto!): UserModel!
+  deleteUser(id: String!): MessageResponse!
   createPost(userId: String!, dto: CreatePostDto!): PostModel!
   updatePost(id: String!, userId: String!, dto: UpdatePostDto!): PostModel!
-  deletePost(id: String!): DeletePostResponse!
+  deletePost(id: String!): MessageResponse!
 }
 
 input CreateUserDto {

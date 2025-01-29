@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import { PrismaService } from '../../../database/prisma.service'
 import { UserRepository } from '../user.repository'
 import { mockDeep, DeepMockProxy } from 'jest-mock-extended'
+import { Role } from '../models'
 
 const users = [
 	{
@@ -14,13 +15,21 @@ const users = [
 		password: `gfeyyf83i`,
 		description: 'My profile',
 		avatarPath: '/upload/avatars/3284iru3i.png',
-		role: 'USER',
+		role: Role.USER,
 		country: 'USA',
 		rememberToken: '',
 		isVerified: false,
 		socialLink: 'https://fb.com/fh934fj093f',
 		isRealTime: false,
-		posts: []
+		posts: [
+			{
+				id: 'fij43fj3j0fjokd',
+				content: 'First post',
+				userId: 'cm6b8z79p0000uvcg1uz9px4n',
+				createdAt: '',
+				updatedAt: ''
+			}
+		]
 	}
 ]
 
@@ -57,7 +66,7 @@ describe(`UserRepository`, () => {
 				password: `gfeyyf83i`,
 				description: 'My profile',
 				avatarPath: '/upload/avatars/3284iru3i.png',
-				role: 'USER',
+				role: Role.USER,
 				country: 'USA',
 				rememberToken: '',
 				isVerified: false,
