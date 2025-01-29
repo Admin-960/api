@@ -10,6 +10,42 @@ query {
   }
 }
 
+/* Get all users */
+query {
+  getAllUsers {
+    id
+    createdAt
+    email
+    posts {
+      id
+      content
+    }
+  }
+}
+
+
+/* Get all posts */
+query {
+  getPosts {
+    id
+    content
+  }
+}
+
+/* Get user with posts */
+query {
+  getUser(id: "cm6b8z79p0000uvcg1uz9px4n") {
+    id
+    email
+    isVerified
+    username
+    posts {
+      id
+      content
+    }
+  }
+}
+
 /* Create user */
 mutation {
   createUser(dto: {
@@ -21,11 +57,28 @@ mutation {
   }
 }
 
+/* Update user */
+mutation {
+ updateUser(id: "cm6ffltpc0000uv9klzwhqtxt", dto: {email: "admin@test.com", username: "admin"}) {
+    id
+    email
+    username,
+    password
+  }
+}
+
 /* Create post */
 mutation {
   createPost(content: "First post.", userId: "cm6b8z79p0000uvcg1uz9px4n") {
     content
     createdAt
     updatedAt
+  }
+}
+
+/* Delete post */
+mutation {
+  deletePost(id: "cm6dycc7j0003uvrsktdg0q46") {
+    message
   }
 }

@@ -2,8 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type PostModel {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  content: String!
+  userId: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type UserModel {
-  id: String!
+  id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
   email: String!
@@ -17,33 +30,46 @@ type UserModel {
   isVerified: Boolean!
   socialLink: String
   isRealTime: Boolean!
+  posts: [PostModel!]!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-type PostModel {
-  id: Int!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  content: String!
-  userId: Int!
+type MessageResponse {
+  message: String!
 }
 
 type Query {
-  getUser(id: String!): UserModel!
-  getUsers: [UserModel!]!
-  getPosts: [PostModel!]!
+  user(id: String!): UserModel
+  profile(id: String!): UserModel
+  users: [UserModel!]!
+  posts: [PostModel!]!
+  post(id: String!): PostModel
 }
 
 type Mutation {
   createUser(dto: CreateUserDto!): UserModel!
-  createPost(content: String!, userId: String!): PostModel!
+  updateUser(id: String!, dto: UpdateUserDto!): UserModel!
+  deleteUser(id: String!): MessageResponse!
+  createPost(userId: String!, dto: CreatePostDto!): PostModel!
+  updatePost(id: String!, userId: String!, dto: UpdatePostDto!): PostModel!
+  deletePost(id: String!): MessageResponse!
 }
 
 input CreateUserDto {
   email: String!
   password: String!
+  username: String
+}
+
+input UpdateUserDto {
+  email: String
+  password: String
+  username: String
+}
+
+input CreatePostDto {
+  content: String!
+}
+
+input UpdatePostDto {
+  content: String
 }

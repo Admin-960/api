@@ -1,23 +1,63 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { UserModel } from './models'
 import { UserRepository } from './user.repository'
+import { hash } from 'argon2'
+import { CreateUserDto, UpdateUserDto } from './dto'
+import { omit } from 'lodash'
 
 @Injectable()
 export class UserService {
 	constructor(private repository: UserRepository) {}
 
-	async getUser(id: string) {
-		const user = await this.repository.getById(id)
-		return user
+	async getUserId(id: string) {
+		const doc = await this.repository.getById(id)
+		return doc
 	}
 
-	async getUsers() {
-		const users = await this.repository.findMany()
-		return users
+	async getProfile(id: string) {
+		const doc = await this.getUserId(id)
+		return {
+			...omit(doc, ['password'])
+		}
 	}
 
-	async createUser(dto: { email: UserModel[`email`]; password: UserModel[`password`] }) {
-		const user = await this.repository.create(dto)
-		return user
+	async getAllUsers() {
+		const docs = await this.repository.findMany()
+		return docs
+	}
+
+	async createUser(dto: CreateUserDto) {
+		const doc = await this.repository.create({ ...dto, password: await hash(dto.password) })
+		return doc
+	}
+
+	async updateProfile(id: string, { password, ...dto }: UpdateUserDto) {
+		const user = await this.getUserId(id)
+		const isSameUser = await this.repository.getByEmail(dto.email)
+
+		if (isSameUser && String(id) !== String(isSameUser.id))
+			throw new NotFoundException('Email busy')
+
+		if (password) {
+			const hashPassword = await hash(password)
+			user.password = hashPassword
+		}
+
+		const updateData = {
+			password: user.password,
+			...dto
+		}
+
+		return this.repository.update(id, updateData)
+	}
+
+	async deleteUser(id: UserModel[`id`]) {
+		const docExist = await this.getUserId(id)
+		if (!docExist) {
+			throw new NotFoundException(`User with id ${id} not found`)
+		}
+
+		await this.repository.delete(id)
+		return { message: 'User deleted' }
 	}
 }

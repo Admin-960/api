@@ -1,20 +1,10 @@
-import { ObjectType, Field, GraphQLISODateTime } from '@nestjs/graphql'
-import { BaseFields } from '@/base'
-import { Role } from './role.enum'
+import { ObjectType, Field } from '@nestjs/graphql'
 import { User as UserDB } from '@prisma/client'
+import { BaseFields } from '@/base'
 import { PostModel } from '@/modules/post/models'
 
 @ObjectType()
-export class UserModel {
-	@Field(() => String)
-	id: UserDB[`id`]
-
-	@Field(() => GraphQLISODateTime)
-	createdAt: UserDB[`createdAt`]
-
-	@Field(() => GraphQLISODateTime)
-	updatedAt: UserDB[`updatedAt`]
-
+export class UserModel extends BaseFields {
 	@Field(() => String)
 	email: UserDB[`email`]
 
@@ -48,6 +38,6 @@ export class UserModel {
 	@Field(() => Boolean)
 	isRealTime: UserDB[`isRealTime`]
 
-	// @Field(() => [PostModel])
-	// posts: PostModel[]
+	@Field(() => [PostModel])
+	posts: PostModel[]
 }

@@ -1,28 +1,42 @@
-import { Injectable } from '@nestjs/common'
-import { Post, User } from '@prisma/client'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { PostRepository } from './post.repository'
+import { PostModel } from './models'
+import { CreatePostDto, UpdatePostDto } from './dto'
 
 @Injectable()
 export class PostService {
 	constructor(private repository: PostRepository) {}
 
-	async createPost(params: { content: Post[`content`]; userId: User[`id`] }) {
-		const { content, userId } = params
-		const post = await this.repository.createPost({
-			data: {
-				content,
-				user: {
-					connect: {
-						id: userId
-					}
-				}
-			}
-		})
-		return post
+	async getPosts() {
+		const docs = await this.repository.getPosts()
+		return docs
 	}
 
-	async getPosts() {
-		const posts = await this.repository.getPosts({})
-		return posts
+	async getPostById(id: PostModel[`id`]): Promise<PostModel> {
+		const doc = await this.repository.findUnique(id)
+		if (!doc) {
+			throw new NotFoundException(`Post with id ${id} not found`)
+		}
+		return doc
+	}
+
+	async createPost(userId: PostModel[`userId`], dto: CreatePostDto) {
+		const doc = await this.repository.createPost(userId, dto)
+		return doc
+	}
+
+	async updatePost(id: PostModel[`id`], userId: PostModel[`userId`], dto: UpdatePostDto) {
+		const doc = await this.repository.updatePost(id, userId, dto)
+		return doc
+	}
+
+	async deletePost(id: PostModel[`id`]) {
+		const docExist = await this.repository.findUnique(id)
+		if (!docExist) {
+			throw new NotFoundException(`Post with id ${id} not found`)
+		}
+
+		await this.repository.delete(id)
+		return { message: 'Post deleted' }
 	}
 }
