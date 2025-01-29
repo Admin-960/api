@@ -1,16 +1,16 @@
 import { Test } from '@nestjs/testing'
 import { PrismaClient } from '@prisma/client'
-import { PrismaService } from '../../database/prisma.service'
-import { PostRepository } from './post.repository'
+import { PrismaService } from '../../../database/prisma.service'
+import { PostRepository } from '../post.repository'
 import { mockDeep, DeepMockProxy } from 'jest-mock-extended'
 
 const posts = [
 	{
-		id: 1,
+		id: 'ke2p8z79p0000uvcg1uz9tao2',
 		createdAt: new Date(),
 		updatedAt: new Date(),
 		content: `Hello there`,
-		userId: 1234
+		userId: 'cm6b8z79p0000uvcg1uz9px4n'
 	}
 ]
 
@@ -33,49 +33,37 @@ describe(`PostRepository`, () => {
 	describe(`createPost`, () => {
 		it(`should create a new post`, async () => {
 			// Arrange
+			const mockedPostDto = {
+				content: `Hello there`,
+				userId: 'cm6b8z79p0000uvcg1uz9px4n'
+			}
+
 			const mockedPost = {
-				id: 1,
+				id: 'ke2p8z79p0000uvcg1uz9tao2',
 				createdAt: new Date(),
 				updatedAt: new Date(),
 				content: `Hello there`,
-				userId: 1234
+				userId: 'cm6b8z79p0000uvcg1uz9px4n'
 			}
+
 			prismaService.post.create.mockResolvedValue(mockedPost)
 
 			// Act
 			const createPost = () =>
-				postRepository.createPost({
-					data: {
-						content: mockedPost.content,
-						user: {
-							connect: {
-								id: mockedPost.userId
-							}
-						}
-					}
-				})
+				postRepository.createPost(mockedPostDto.userId, { content: mockedPostDto.content })
 
 			// Assert
 			await expect(createPost()).resolves.toBe(mockedPost)
 		})
 
 		it(`> 280 character posts should throw an error`, async () => {
-			const payload = {
+			const mockedPostDto = {
 				content: `This is a super long post over 80 characters This is a super long post over 80 characters`,
-				userId: 1234
+				userId: 'cm6b8z79p0000uvcg1uz9px4n'
 			}
 
 			const createPost = () =>
-				postRepository.createPost({
-					data: {
-						content: payload.content,
-						user: {
-							connect: {
-								id: payload.userId
-							}
-						}
-					}
-				})
+				postRepository.createPost(mockedPostDto.userId, { content: mockedPostDto.content })
 
 			expect(createPost()).rejects.toBeInstanceOf(Error)
 		})
@@ -85,7 +73,7 @@ describe(`PostRepository`, () => {
 		it(`should return array of posts`, async () => {
 			prismaService.post.findMany.mockResolvedValue(posts)
 
-			await expect(postRepository.getPosts({})).resolves.toBe(posts)
+			await expect(postRepository.getPosts()).resolves.toBe(posts)
 		})
 	})
 })

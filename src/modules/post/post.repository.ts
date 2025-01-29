@@ -1,13 +1,14 @@
-import { Injectable } from '@nestjs/common'
-import { Prisma, Post } from '@prisma/client'
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { Prisma } from '@prisma/client'
 import { PrismaService } from '../../database/prisma.service'
 import { PostModel } from './models'
+import { CreatePostDto, UpdatePostDto } from './dto'
 
 @Injectable()
 export class PostRepository {
 	constructor(private prisma: PrismaService) {}
 
-	async getPosts(): Promise<Post[]> {
+	async getPosts(): Promise<PostModel[]> {
 		return await this.prisma.post.findMany({
 			orderBy: { createdAt: 'desc' }
 		})
@@ -19,23 +20,41 @@ export class PostRepository {
 		})
 	}
 
-	async createPost(dto: { data: Prisma.PostCreateInput }): Promise<Post> {
-		const { data } = dto
-		if (data.content.length > 80) {
-			throw new Error(`Post too long`)
+	async createPost(userId: string, dto: CreatePostDto): Promise<PostModel> {
+		const { content } = dto
+		if (content.length > 80) {
+			throw new NotFoundException(`Post too long`)
 		}
-		return await this.prisma.post.create({ data })
+		return await this.prisma.post.create({
+			data: {
+				content,
+				user: {
+					connect: {
+						id: userId
+					}
+				}
+			}
+		})
 	}
 
-	async updatePost(dto: {
-		where: Prisma.PostWhereUniqueInput
-		data: Prisma.PostUpdateInput
-	}): Promise<Post> {
-		const { where, data } = dto
-		if (data.content && String(data.content).length > 80) {
-			throw new Error(`Post too long`)
+	async updatePost(id: string, userId: string, dto: UpdatePostDto): Promise<PostModel> {
+		const { content } = dto
+		if (content && String(content).length > 80) {
+			throw new NotFoundException(`Post too long`)
 		}
-		return await this.prisma.post.update({ where, data })
+		return await this.prisma.post.update({
+			where: {
+				id
+			},
+			data: {
+				content,
+				user: {
+					connect: {
+						id: userId
+					}
+				}
+			}
+		})
 	}
 
 	async delete(id: string) {

@@ -21,35 +21,12 @@ export class PostService {
 	}
 
 	async createPost(userId: PostModel[`userId`], dto: CreatePostDto) {
-		const { content } = dto
-		const doc = await this.repository.createPost({
-			data: {
-				content,
-				user: {
-					connect: {
-						id: userId
-					}
-				}
-			}
-		})
+		const doc = await this.repository.createPost(userId, dto)
 		return doc
 	}
 
 	async updatePost(id: PostModel[`id`], userId: PostModel[`userId`], dto: UpdatePostDto) {
-		const { content } = dto
-		const doc = await this.repository.updatePost({
-			where: {
-				id
-			},
-			data: {
-				content,
-				user: {
-					connect: {
-						id: userId
-					}
-				}
-			}
-		})
+		const doc = await this.repository.updatePost(id, userId, dto)
 		return doc
 	}
 

@@ -1,6 +1,6 @@
 import { CreateUserDto, UpdateUserDto } from './dto'
 import { Injectable } from '@nestjs/common'
-import { UserModel } from './models'
+import { Role, UserModel } from './models'
 import { PrismaService } from '@/database/prisma.service'
 
 @Injectable()
@@ -40,8 +40,9 @@ export class UserRepository {
 	}
 
 	async create(dto: CreateUserDto): Promise<UserModel> {
+		const defaultData = { ...dto, email: dto.email, password: dto.password, role: Role.USER }
 		const createdUser = this.prisma.user.create({
-			data: { email: dto.email, password: dto.password },
+			data: defaultData,
 			include: {
 				posts: true
 			}
