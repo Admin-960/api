@@ -1,17 +1,9 @@
+import { BaseFields } from '@/base'
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql'
 import { Post as PostDB } from '@prisma/client'
 
 @ObjectType()
-export class PostModel {
-	@Field(() => String)
-	id: PostDB[`id`]
-
-	@Field(() => GraphQLISODateTime)
-	createdAt: PostDB[`createdAt`]
-
-	@Field(() => GraphQLISODateTime)
-	updatedAt: PostDB[`updatedAt`]
-
+export class PostModel extends BaseFields {
 	@Field(() => String)
 	content: PostDB[`content`]
 

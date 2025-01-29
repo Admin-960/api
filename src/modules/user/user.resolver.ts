@@ -10,17 +10,17 @@ export class UserResolver {
 	constructor(private readonly userService: UserService) {}
 	// 2:40
 
-	@Query(() => UserModel)
+	@Query(() => UserModel, { nullable: true, name: 'user' })
 	async getUserId(@Args('id') id: string) {
 		return this.userService.getUserId(id)
 	}
 
-	@Query(() => UserModel)
+	@Query(() => UserModel, { nullable: true, name: 'profile' })
 	async getProfile(@Args('id') id: string) {
 		return this.userService.getProfile(id)
 	}
 
-	@Query(() => [UserModel])
+	@Query(() => [UserModel], { name: 'users' })
 	async getAllUsers() {
 		return this.userService.getAllUsers()
 	}

@@ -1,18 +1,10 @@
 import { ObjectType, Field, GraphQLISODateTime } from '@nestjs/graphql'
 import { User as UserDB } from '@prisma/client'
 import { PostModel } from '@/modules/post/models'
+import { BaseFields } from '@/base'
 
 @ObjectType()
-export class UserModel {
-	@Field(() => String)
-	id: UserDB[`id`]
-
-	@Field(() => GraphQLISODateTime)
-	createdAt: UserDB[`createdAt`]
-
-	@Field(() => GraphQLISODateTime)
-	updatedAt: UserDB[`updatedAt`]
-
+export class UserModel extends BaseFields {
 	@Field(() => String)
 	email: UserDB[`email`]
 

@@ -9,12 +9,12 @@ import { MessageResponse } from '@/responses'
 export class PostResolver {
 	constructor(private readonly postService: PostService) {}
 
-	@Query(() => [PostModel])
+	@Query(() => [PostModel], { name: 'posts' })
 	async getPosts(): Promise<PostModel[]> {
 		return this.postService.getPosts()
 	}
 
-	@Query(() => PostModel, { nullable: true })
+	@Query(() => PostModel, { nullable: true, name: 'post' })
 	async getPostById(@Args('id') id: string): Promise<PostModel> {
 		return this.postService.getPostById(id)
 	}
