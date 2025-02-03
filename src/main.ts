@@ -11,6 +11,11 @@ async function bootstrap() {
 
 	app.setGlobalPrefix('api')
 
+	app.enableCors({
+		origin: 'http://localhost:3000',
+		credentials: true
+	})
+
 	app.useGlobalPipes(new ValidationPipe({ transform: true }))
 
 	await app.listen(process.env.PORT || 4200)
