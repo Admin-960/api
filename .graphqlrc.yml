@@ -1,3 +1,0 @@
-schema: ${REACT_APP_SERVER_URL:"http://localhost:4200/graphql"}
-documents: src/schemes/**/*.graphql
-include: src/app/**/*.tsx
